@@ -1,9 +1,10 @@
 pipeline {
     agent any
     
- /*   maven "maven"
+ //  maven "maven"
     
     stages {
+ /*   
         stage('Build jar file') {
             steps {
                 script {
