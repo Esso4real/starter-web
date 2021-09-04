@@ -11,7 +11,7 @@ pipeline {
                         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
                         sh 'docker push esso4real/myhtmlapp:v2.0'
                     }
-
+                }
             }
         }
       stage('Test') {
