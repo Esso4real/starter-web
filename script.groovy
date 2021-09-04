@@ -12,7 +12,10 @@ def buildImage() {
 }
 
 def deployApp() {
-  echo "Deploying App"
+def dockerCmd = "docker push esso4real/myhtmlapp:Tek-Experts-1.0"
+    sshagent(['ec2-jenkins-ssh']) {
+    sh "ssh -o StrictHostKeyChecking=no ec2-user@54.211.242.205 ${dockerCmd}"
+    }
 }
 
 return this
