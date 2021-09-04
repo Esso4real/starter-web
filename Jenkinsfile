@@ -14,7 +14,9 @@ pipeline {
                     sh "mvn clean package"
                 }
             }
-        } */
+        }
+        
+  */
         stage ('Groovy init') {
             steps {
                 script {
@@ -29,7 +31,7 @@ pipeline {
                     }
                 }
             }
-        }
+        
          stage('Deploy App') {
             steps {
                 script {
