@@ -1,5 +1,3 @@
-def gv
-
 pipeline {
     agent any
     
@@ -23,9 +21,9 @@ pipeline {
                 script {
                     echo "Building Docker Image"
                     withCredentials([usernamePassword(credentialsId: 'hub-docker', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                        sh "docker build -t esso4real/myhtmlapp:Tek-Experts-1.2 ."
+                        sh "docker build -t esso4real/myhtmlapp:Tek-Experts-1.3 ."
                         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-                        sh "docker push esso4real/myhtmlapp:Tek-Experts-1.2"
+                        sh "docker push esso4real/myhtmlapp:Tek-Experts-1.3"
                             }
                         }
                     }
@@ -35,7 +33,13 @@ pipeline {
          stage('Deploy App') {
             steps {
                 script {
-                    gv.deployApp()
+                    withCredentials([usernamePassword(credentialsId: 'hub-docker', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
+                    def dockerCmd = "docker push esso4real/myhtmlapp:Tek-Experts-1.0"
+                        sshagent(['ec2-jenkins-ssh']) {
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@54.211.242.205 ${dockerCmd}"
+                        }
+                    }
                 }
             }
         }
