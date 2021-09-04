@@ -17,17 +17,17 @@ pipeline {
         }
         
   */
-        stage ('Groovy init') {
-            steps {
-                script {
-                    gv = load "script.groovy"
-                }
-            }
-        }
+      
          stage('Build Docker Image') {
             steps {
                 script {
-                    gv.buildImage()
+                    echo "Building Docker Image"
+                    withCredentials([usernamePassword(credentialsId: 'hub-docker', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh "docker build -t esso4real/myhtmlapp:Tek-Experts-1.2 ."
+                        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
+                        sh "docker push esso4real/myhtmlapp:Tek-Experts-1.2"
+                            }
+                        }
                     }
                 }
             }
