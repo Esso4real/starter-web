@@ -16,8 +16,10 @@ pipeline {
             }
         } */
         stage ('Groovy init') {
-            script {
-                gv = load "script.groovy"
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
             }
         }
          stage('Build Docker Image') {
